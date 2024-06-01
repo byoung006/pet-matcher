@@ -1,0 +1,22 @@
+@import './base.css';
+
+#app {
+
+  display: flex;
+  min-width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  background-color: var(--vt-c-black-soft);
+}
+
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+  }
+
+  #app {
+    padding: 0 2rem;
+  }
+}

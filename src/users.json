@@ -1,0 +1,92 @@
+[
+  {
+    "name": "John Doe",
+    "age": 30,
+    "isActive": true,
+    "petNames": [
+      {"petName":"Rex", "petColor": "brown", "petAge": 5, "petKind": "dog" },
+      { "petName": "Whiskers", "petColor": "white", "petAge": 3, "petKind": "cat" } 
+    ]
+  },
+  {
+    "name": "Alice Smith",
+    "age": 25,
+    "isActive": false,
+    "petNames": [
+      { "petName": "Buddy", "petColor": "golden", "petAge": 2, "petKind": "dog" },
+      { "petName": "Mittens", "petColor": "gray", "petAge": 4, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Bob Johnson",
+    "age": 40,
+    "isActive": true,
+    "petNames": [
+      { "petName": "Max", "petColor": "black", "petAge": 6, "petKind": "dog" },
+      { "petName": "Fluffy", "petColor": "orange", "petAge": 1, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Eva Williams",
+    "age": 28,
+    "isActive": true,
+    "petNames": [
+      { "petName": "Charlie", "petColor": "spotted", "petAge": 3, "petKind": "dog" },
+      { "petName": "Smokey", "petColor": "gray", "petAge": 5, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "David Brown",
+    "age": 35,
+    "isActive": false,
+    "petNames": [
+      { "petName": "Luna", "petColor": "white", "petAge": 2, "petKind": "dog" },
+      { "petName": "Shadow", "petColor": "black", "petAge": 4, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Grace Miller",
+    "age": 22,
+    "isActive": true,
+    "petNames": [
+      { "petName": "Cooper", "petColor": "golden", "petAge": 1, "petKind": "dog" },
+      { "petName": "Oliver", "petColor": "tabby", "petAge": 3, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Frank Davis",
+    "age": 45,
+    "isActive": true,
+    "petNames": [
+      { "petName": "Rocky", "petColor": "brown", "petAge": 4, "petKind": "dog" },
+      { "petName": "Cleo", "petColor": "calico", "petAge": 2, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Olivia Wilson",
+    "age": 31,
+    "isActive": false,
+    "petNames": [
+      { "petName": "Leo", "petColor": "striped", "petAge": 3, "petKind": "dog" },
+      { "petName": "Whiskey", "petColor": "black", "petAge": 6, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Samuel Taylor",
+    "age": 28,
+    "isActive": true,
+    "petNames": [
+      { "petName": "Zeus", "petColor": "gray", "petAge": 5, "petKind": "dog" },
+      { "petName": "Misty", "petColor": "white", "petAge": 2, "petKind": "cat" }
+    ]
+  },
+  {
+    "name": "Sophie Clark",
+    "age": 26,
+    "isActive": true,
+    "petNames": [
+      { "petName": "Teddy", "petColor": "brown", "petAge": 3, "petKind": "dog" },
+      { "petName": "Sasha", "petColor": "black", "petAge": 4, "petKind": "cat" }
+    ]
+  }
+]

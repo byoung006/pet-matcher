@@ -3,16 +3,19 @@ import { defineStore } from "pinia";
 export const userStore = defineStore('user', {
     state: ()=> ({ 
         firstName:'', 
-        isAuthenticated:false
+        isAuthenticated:false,
+        id:0
     }),
+    persist:true, // Uncomment this line if using a persistence plugin
     actions:{
         updateAuth(authRequest:boolean){
-            console.log(authRequest, 'whats in the store?')
             this.isAuthenticated = authRequest;
         },
         setUserName(name:string){
-            console.log(name, 'what comes into this function')
             this.firstName = name;
+        },
+        setUserId(id:number){
+            this.id = id;
         }
     }
 })

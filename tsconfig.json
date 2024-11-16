@@ -13,12 +13,34 @@
   ],
   "compilerOptions": {
     "composite": true,
-    "target": "ES2017",
+    "target": "ESNext",
     "noEmit": true,
     "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "sourceMap": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "types": ["node"],
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "strict": true,
+    "jsx": "preserve",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/shims.d.ts",
+    "src/shims-vue.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

@@ -2,7 +2,6 @@ import type { IUser, PetInfo } from '../UserTypes'
 
 import { PrismaClient } from '@prisma/client'
 import { hashSync } from 'bcrypt';
-const cors = require('cors');
 import type { Request, Response } from 'express';
 let res = {} as Response<IUser>;
 let req = {} as Request;

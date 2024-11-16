@@ -1,6 +1,6 @@
 <template>
   <Transition mode="out-in" name="modal">
-    <div v-if="show" class="modal-mask">
+    <div v-if="show" class="modal-mask" @click="handleClickOutside">
       <div class="modal-container">
         <div class="modal-header">
           {{ user.name }}
@@ -23,7 +23,7 @@
           </div>
           <div v-if="!user.pets.length">No Pets - Yet!</div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" v-if="showMatchButtons">
           <button class="modal-default-button-right" @click="$emit('match')">Match</button>
           <button class="modal-default-button-left" @click="$emit('no-thanks')">No Thanks</button>
         </div>
@@ -38,16 +38,23 @@ import { defineComponent } from 'vue'
 
 @Component({
   name: 'UserModal',
-  emits: ['match', 'no-thanks']
+  emits: ['match', 'no-thanks', 'close']
 })
 export default class UserModal extends Vue {
   @Prop() show: boolean = false
-  @Prop() user: IUser = {
+  @Prop() showMatchButtons: boolean = false
+  @Prop() user: Omit<IUser, 'email' | 'password' | 'usermatches'> = {
     id: 0,
     name: '',
     age: 0,
     isActive: false,
     pets: [{ petName: '', petColor: '', petAge: 0, petKind: 'dog' }]
+  }
+  handleClickOutside(event: MouseEvent) {
+    this.$emit('close')
+  }
+  mounted(){
+    console.log(this.show, 'stuff and things')
   }
 }
 </script>

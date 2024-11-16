@@ -55,22 +55,20 @@ export default class LoginClass extends Vue {
     email: '',
     password: ''
   }
-  @Watch('isUserAuthenticated')
-  onUserAuthenticatedChange() {
-    if (this.isUserAuthenticated === true) {
-      console.log('did we trigger?')
-      window.sessionStorage.setItem('UserAuthenticated', 'true')
-      this.$router.push({ path: '/' })
-    } else {
-      this.$router.push({ path: '/login' })
-    }
-  }
 
   loading: boolean = false
   showPopup: boolean = false
   authenticationAttempts: number = 0
 
   _userStore = userStore()
+  @Watch('isUserAuthenticated')
+  onUserAuthenticatedChange() {
+    if (this.isUserAuthenticated === true) {
+      this.$router.push({ path: '/' })
+    } else {
+      this.$router.push({ path: '/login' })
+    }
+  }
 
   get requiredField() {
     return (v: string) => !!v || 'This field is required'
@@ -135,6 +133,7 @@ export default class LoginClass extends Vue {
       console.log(data, 'data in object')
       this._userStore.updateAuth(data.isAuthorized)
       this._userStore.setUserName(data.user.name)
+      this._userStore.setUserId(data.user.id)
 
       this.isUserAuthenticated = true
       return true

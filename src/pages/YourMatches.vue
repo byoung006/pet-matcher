@@ -1,7 +1,7 @@
 <template>
   <v-card class="card-container-wrapper">
     <v-list class="card-container">
-      <v-list-item v-for="user in userArray" :key="user.name">
+      <v-list-item v-for="user in matches" :key="user.name">
         <v-list-item @click="getUser(user.id)" class="card">
           <v-row>
             <v-col>
@@ -32,44 +32,42 @@
       </v-list-item>
     </v-list>
   </v-card>
+
   <Teleport to="body">
     <!-- use the modal component, pass in the prop -->
     <UserModal
       :show="showModal"
-      @close="handleCloseEvent"
+      :user="user"
+      :showMatchButtons="false"
+      @close="showModal = false"
       @match="handleMatchEvent"
       @no-thanks="handleNoThanksEvent"
-      :user="user"
     />
   </Teleport>
 </template>
 
 <script lang="ts">
-import type { IUser } from '@/UserTypes'
-import UserModal from './UserModal.vue'
+import { userStore } from '../stores/userStore'
 import { Vue, Component, Prop, Watch } from 'vue-facing-decorator'
-
-import { defineComponent } from 'vue'
-defineComponent({
-  name: 'UserMatches'
-})
+import type { IUser } from '@/UserTypes';
+import UserModal from '../components/UserModal.vue';
 
 @Component({
+  name: 'YourMatches',
   components: {
     UserModal
   },
-  emits: ['user', 'match', 'no-thanks']
 })
-export default class UserMatches extends Vue {
-  @Prop({required:true}) users: IUser[] = []
-  // create a getter to get the users from the prop that is passed into the component
-  user: IUser = {
+export default class YourMatches extends Vue {
+  userStore = userStore()
+  userId:number | null = 0 ;
+  matches:IUser[] =[]
+  showModal = false
+  user: Omit<IUser, 'email' | 'password' | 'usermatches'> = {
     id: 0,
     name: '',
     age: 0,
     isActive: false,
-    email: '',
-    password: '',
     pets: [
       {
         petName: '',
@@ -77,45 +75,45 @@ export default class UserMatches extends Vue {
         petAge: 0,
         petKind: 'dog'
       }
-    ],
+    ]
   }
-  showModal = false
-  userMatches = <Record<string, IUser>>{}
-  userMatchArray: Array<IUser> = []
-
-  get userArray(): IUser[] {
-    return this.users
+  created() {
+    this.userId = this.userStore.$state.id
+    this.fetchMatches();
   }
-  // create a watcher to update the userMatches object when the Modal recieves a match event from the child
-  async handleMatchEvent(user: IUser) {
-    this.showModal = false
-    this.$emit('match', this.user)
-    this.userMatches = { user: this.user }
-    type SafeUser = Omit<IUser, 'email' | 'password'>
-    this.userMatchArray.push(this.userMatches.user) as unknown as SafeUser
-
+  handleMatchEvent(){
+    this.showModal = false;
   }
 
-  handleNoThanksEvent(user: IUser) {
-    this.showModal = false
-    this.userMatches = { user: this.user }
+  handleNoThanksEvent(){
+    this.showModal = false;
   }
-  handleCloseEvent(){
-    this.showModal = false
-  }
+    async fetchMatches() {
+        console.log(this.userId, 'userID')
+      try {
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/${this.userId}/matches`).then(async (resp: Response) => {
+          let data: IUser[] = await resp.json();
+          this.matches = data;
+        });
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      }
+    }
 
   public async getUser(id: number): Promise<void> {
     await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/${id}`)
       .then((response) => response.json())
       .then((data) => {
         this.user = data
-        this.showModal = true
       })
+        this.showModal = true
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped>
+/* Add your styles here */
+
 .card-container {
   /** Create styling for cards to flex in a grid 3 wide, taking up 100% the width of the container */
   display: grid;

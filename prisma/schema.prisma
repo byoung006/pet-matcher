@@ -1,10 +1,10 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "mysql"
   url      = "mysql://root:moosethedog106@localhost:3306/pet_matcher_dev"
+}
+
+generator client {
+  provider = "prisma-client-js"
 }
 
 model pets {
@@ -20,23 +20,25 @@ model pets {
 }
 
 model users {
-  id       Int     @id @default(autoincrement())
-  name     String  @db.VarChar(255)
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(255)
   age      Int
   isActive Boolean
-  email    String  @db.VarChar(255) @unique
-  password String  @db.VarChar(255)
+  email    String    @unique @db.VarChar(255)
+  password String    @db.VarChar(255)
   pets     pets[]
-  matches  userMatches[]
+  matches  UserMatch[] @relation("UserMatches")
+  matchedBy UserMatch[] @relation("MatchedByUsers")
 }
-// create a model for the matches of the users to store as an array of userMatches in the users model
 
-model userMatches {
-  id       Int     @id @default(autoincrement())
-  userId   Int
-  matches  users   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "userMatches_ibfk_2")
+model UserMatch {
+  id        Int    @id @default(autoincrement())
+  matcherId Int
+  matcher   users   @relation("UserMatches", fields: [matcherId], references: [id])
+  matcheeId Int
+  matchee   users   @relation("MatchedByUsers", fields: [matcheeId], references: [id])
 
-  @@index([userId], map: "userId")
+  @@unique([matcherId, matcheeId]) // Ensures no duplicate matches
 }
 
 enum pets_petKind {

@@ -32,6 +32,14 @@ const routes = [
      meta: {
       requiresAuth:false
     }
+  },
+  {
+    path: '/my-matches',
+    name: 'YourMatches',
+    component: () => import('../pages/YourMatches.vue'),
+     meta: {
+      requiresAuth:true
+    }
   }
 ]
 const router = createRouter({
@@ -42,9 +50,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const store = userStore();
-    const sessionStore = Boolean(window.sessionStorage.getItem("UserAuthenticated"))
-    console.log(store.isAuthenticated, sessionStore,  'do we have auth')
-    if (!store.isAuthenticated === true || !sessionStore === true) {
+    console.log(store.isAuthenticated,  'do we have auth')
+    if (!store.isAuthenticated === true) {
       next({ path: '/login' });
       return; // stop execution if user is not authenticated
     }

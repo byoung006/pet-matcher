@@ -1,87 +1,50 @@
 <template>
   <div class="form-wrapper">
-    <v-form @submit.prevent="submitForm">
+    <v-form>
       <h2>Create a User</h2>
       <div class="column-wrapper">
         <v-col>
           <v-row>
-            <v-text-field
-              v-model="user.name"
-              :rules="[requiredField]"
-              label="Name"
-              placeholder="Enter your Name"
-              clearable
-            ></v-text-field>
+            <v-text-field v-model="user.name" :rules="[requiredField]" label="Name" placeholder="Enter your Name"
+              clearable></v-text-field>
           </v-row>
 
           <v-row>
-            <v-text-field
-              v-model="user.age"
-              :rules="[requiredField, isNumber]"
-              label="Age"
-              placeholder="Enter your Age"
-              clearable
-            ></v-text-field>
+            <v-text-field v-model="user.age" :rules="[requiredField, isNumber]" label="Age" placeholder="Enter your Age"
+              clearable></v-text-field>
           </v-row>
 
           <v-row>
-            <v-text-field
-              v-model="user.email"
-              :rules="[requiredField]"
-              label="Email"
-              placeholder="Enter your password"
-              clearable
-            ></v-text-field>
+            <v-text-field v-model="user.email" :rules="[requiredField]" label="Email" placeholder="Enter your password"
+              clearable></v-text-field>
           </v-row>
           <v-row>
             <label>
-              <v-text-field
-                v-model="user.password"
-                :rules="[requiredField]"
-                label="Password"
-                placeholder="Enter your password"
-                clearable
-              ></v-text-field>
+              <v-text-field v-model="user.password" :rules="[requiredField]" label="Password"
+                placeholder="Enter your password" clearable></v-text-field>
             </label>
           </v-row>
           <div class="button-wrapper">
             <button @click="togglePetAddition()">Add Pet</button>
           </div>
           <v-row>
-            <div
-              class="pet-adding-dropdown"
-              v-if="showPetSelection"
-              v-for="(pet, index) in user.pets"
-              :key="index"
-            >
-              <v-text-field
-                v-model="pet.petName"
-                label="Pet Name"
-                placeholder="What's your pet's name?"
-                clearable
-              ></v-text-field>
+            <div class="pet-adding-dropdown" v-if="showPetSelection" v-for="(pet, index) in user.pets" :key="index">
+              <v-text-field v-model="pet.petName" :rules="[requiredField]"label="Pet Name" placeholder="What's your pet's name?"
+                clearable></v-text-field>
 
-              <v-text-field
-                v-model="pet.petColor"
-                label="Pet Color"
-                placeholder="What's your pet's color?"
-                clearable
-              ></v-text-field>
+              <v-text-field v-model="pet.petColor" :rules="[requiredField]"label="Pet Color" placeholder="What's your pet's color?"
+                clearable></v-text-field>
 
-              <v-text-field
-                v-model="pet.petAge"
-                label="Pet Age"
-                placeholder="What's your pet's age?"
-                clearable
-              ></v-text-field>
-            <br/>
-            <v-select label="Pet Type" :items="['dog', 'cat', 'fish', 'other']" v-model="pet.petKind">
-            </v-select>
+              <v-text-field v-model="pet.petAge" :rules="[requiredField]"label="Pet Age" placeholder="What's your pet's age?"
+                clearable></v-text-field>
+              <br />
+              <v-select label="Pet Type" :items="['dog', 'cat', 'fish', 'other']" :rules="[requiredField]"v-model="pet.petKind">
+              </v-select>
             </div>
           </v-row>
-          <!-- <div style="{{marginTop:'20px'}}" class="button-wrapper">
-            <button type="submit">Create User</button>
-          </div> -->
+          <div style="{{marginTop:'20px'}}" class="button-wrapper">
+            <v-btn @click="submitForm()" type="submit">Create User</v-btn>
+          </div>
         </v-col>
       </div>
     </v-form>
@@ -114,7 +77,7 @@ export default class CreateUser extends Vue {
       }
     ]
   }
-  showPetSelection = true;
+  showPetSelection = false;
   updated() {
     console.log(this.user, 'user')
     console.log(this.showPetSelection, 'petSelection')
@@ -137,13 +100,18 @@ export default class CreateUser extends Vue {
         password: this.user.password,
         petNames: this.user.pets
       }
-     const userCreationRequest =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/create`, {
+      console.log(userObject, 'whats dis?')
+      if (!userObject.petNames){
+        console.log('No petNames have been added')
+        return
+      }
+      const userCreationRequest = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name:userObject.name,
+          name: userObject.name,
           age: userObject.age,
           email: userObject.email,
           password: userObject.password,
@@ -178,23 +146,28 @@ export default class CreateUser extends Vue {
   width: 100%;
   position: relative;
   background-color: inherit;
+
   & h2 {
     color: var(--vt-c-white-mute);
   }
 }
+
 .column-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+
   & .v-col {
     width: 30vw !important;
+
     & .v-row {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
+
       & label {
         color: var(--vt-c-white-mute);
         display: flex;
@@ -202,11 +175,13 @@ export default class CreateUser extends Vue {
         justify-content: center;
         gap: 1rem;
         width: 100%;
+
         & input {
           color: var(--vt-c-white-mute);
           width: 100%;
           margin: 0.5rem 0;
         }
+
         & input:hover {
           border: 1px solid var(--vt-c-white-mute);
         }
@@ -216,12 +191,14 @@ export default class CreateUser extends Vue {
         }
       }
     }
+
     .button-wrapper {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       padding: 2%;
+
       & button {
         border: 1px solid var(--vt-c-black-mute);
         border-radius: 1rem;
@@ -232,6 +209,7 @@ export default class CreateUser extends Vue {
       }
     }
   }
+
   .pet-adding-dropdown {
     display: flex;
     flex-direction: column;
@@ -245,6 +223,7 @@ export default class CreateUser extends Vue {
     border-radius: 1rem;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
     background-color: var(--vt-c-black-soft);
+
     & .v-input {
       color: var(--vt-c-white-mute);
       width: 80%;
